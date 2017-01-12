@@ -101,9 +101,9 @@ var favorite = function() {
 };
 
 
-// retweet on bot start
+// favorite on bot start
 favorite();
-// retweet in every x minutes
+// favorite in every x minutes
 setInterval(favorite, 60000 * favoriteFrequency);
 
 
