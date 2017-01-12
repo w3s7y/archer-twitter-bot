@@ -9,11 +9,15 @@ var T = new twit(config);
 var qs = ura(strings.queryString);
 var rt = ura(strings.resultType);
 
-var retweetFrequency = .2;
-var favoriteFrequency = 5;
+var retweetFrequency = .1;
+var favoriteFrequency = .1;
 
 console.log('GO BOT GO!');
 
+
+// ====================================
+//    RETWEET 
+// ====================================
 var retweet = function() {
   var paramQs = qs();
   var paramRt = rt();
@@ -44,22 +48,68 @@ var retweet = function() {
     }
     var randomUser = randIdx(data.statuses).user.screen_name;
     console.log(randomUser + ' ' + paramQs + ' ' + paramRt);
-
   });
 };
 
-// grab & retweet as soon as program is running...
+// retweet on bot start
 retweet();
-// retweet in every five minutes
+// retweet in every x minutes
 setInterval(retweet, 60000 * retweetFrequency);
+
+// REPLY 'Phrasing?' to certain query strings 
+
+// ====================================
+//    FAVORITE
+// ====================================
+var favorite = function() {
+  var paramQs = qs();
+  var paramRt = rt();
+  var params = {
+    q: paramQs,
+    result_type: paramRt,
+    lang: 'en'
+  };
+  T.get('search/tweets', params, function(err, data) {
+    if (!err) {
+
+      // find tweets randomly
+      var tweet = data.statuses;
+      var randomTweet = randIdx(tweet); // pick a random tweet
+
+      // if tweet is found
+      if (typeof randomTweet != 'undefined') {
+        // Tell Twitter to 'favorite' it
+        T.post('favorites/create', {
+          id: randomTweet.id_str
+        }, function(err, response) {
+          // if error while 'favorite'
+          if (err) {
+            console.log('CANNOT BE FAVORITE! ERROR! Err: ' + err);
+          }
+          else {
+            console.log('FAVORITED! SUCCESS!');
+          }
+        });
+      }
+      else {
+        return console.log('CANNOT RETWEET! Derp!' + err);
+      }
+      var randomUser = randIdx(data.statuses).user.screen_name;
+      console.log(randomUser + ' ' + paramQs + ' ' + paramRt);
+    }
+  });
+};
+
+
+// retweet on bot start
+favorite();
+// retweet in every x minutes
+setInterval(favorite, 60000 * favoriteFrequency);
+
+
+// Random index
 
 function randIdx(arr) {
   var index = Math.floor(Math.random() * arr.length);
   return arr[index];
 }
-
-// T.post('statuses/update', {
-//   status: 'hello world!'
-// }, function(err, data, response) {
-//   console.log(data);
-// });
