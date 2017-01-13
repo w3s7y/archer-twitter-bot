@@ -1,18 +1,20 @@
 var
   twit = require('twit'),
   ura = require('unique-random-array'),
-  fs  = require('fs'),
+  fs = require('fs'),
   config = require('./config'),
   strings = require('./helpers/strings'),
-  responses = require('./helpers/responses');
+  responses = require('./helpers/responses'),
+  phrasing = require('./helpers/phrasing');
 
 
 var T = new twit(config);
 var qs = ura(strings.queryString);
 var rt = ura(strings.resultType);
 
-var retweetFrequency = .1;
-var favoriteFrequency = .1;
+var retweetFrequency = 5;
+var favoriteFrequency = 5;
+var tweetFrequency = 5;
 
 console.log('GO BOT GO!');
 
@@ -118,13 +120,13 @@ userStream.on('follow', followed);
 
 function followed(event) {
   console.log('FOLLOW EVENT RUNNING');
-  
+
   // get USER's twitter handler (screen name)
   var screenName = event.source.screen_name;
-  
+
   // function that replies back to every USER who followed for the first time
   tweetNow('Thanks @' + screenName + ' you rock!');
-  
+
 }
 
 
@@ -137,7 +139,7 @@ function tweetNow(tweetTxt) {
       console.log('REPLY DERP! ERROR!', err);
     }
     else {
-      console.log('REPLY SUCCESS!');
+      console.log('REPLY SUCCESS!', tweetTxt);
     }
   });
 }
@@ -154,25 +156,58 @@ function randIdx(arr) {
 // ====================================
 //    POST TWEET WITH MEDIA 
 // ====================================
-var b64content = fs.readFileSync('./src/archer.png', { encoding: 'base64' });
- 
-// first we must post the media to Twitter 
-T.post('media/upload', { media_data: b64content }, function (err, data, response) {
-  // now we can assign alt text to the media, for use by screen readers and 
-  // other text-based presentations and interpreters 
-  var mediaIdStr = data.media_id_string;
-  var altText = "Small flowers in a planter on a sunny balcony, blossoming.";
-  var meta_params = { media_id: mediaIdStr, alt_text: { text: altText } };
- 
-  T.post('media/metadata/create', meta_params, function (err, data, response) {
-    if (!err) {
-      // now we can reference the media and post a tweet (media will attach to the tweet) 
-      var params = { status: 'loving life #nofilter', media_ids: [mediaIdStr] };
- 
-      T.post('statuses/update', params, function (err, data, response) {
-        console.log(data, 'YAY!');
-      });
-    }
-  });
-});
+// var b64content = fs.readFileSync('./src/img/archer.png', { encoding: 'base64' });
 
+// // first we must post the media to Twitter 
+// T.post('media/upload', { media_data: b64content }, function (err, data, response) {
+//   // now we can assign alt text to the media, for use by screen readers and 
+//   // other text-based presentations and interpreters 
+//   var mediaIdStr = data.media_id_string;
+//   var altText = "Small flowers in a planter on a sunny balcony, blossoming.";
+//   var meta_params = { media_id: mediaIdStr, alt_text: { text: altText } };
+
+//   T.post('media/metadata/create', meta_params, function (err, data, response) {
+//     if (!err) {
+//       // now we can reference the media and post a tweet (media will attach to the tweet) 
+//       var params = { status: 'loving life #nofilter', media_ids: [mediaIdStr] };
+
+//       T.post('statuses/update', params, function (err, data, response) {
+//         console.log(data, 'YAY!');
+//       });
+//     }
+//   });
+// });
+
+
+// ====================================
+//    SEND TWEET 
+// ====================================
+
+var ps = ura(phrasing.phrasingQueryString);
+var pr = ura(phrasing.phrasingReplyString);
+
+function sendTweet() {
+
+  var paramQs = ps();
+  var paramRt = rt();
+
+  var params = {
+    q: paramQs,
+    result_type: paramRt,
+    lang: 'en'
+  };
+
+  T.get('search/tweets', params, function(err, data) {
+    if (!err) {
+      var phrasingReply = pr();
+      var randomUser = randIdx(data.statuses).user.screen_name;
+      tweetNow('@' + randomUser + ' ' + phrasingReply);
+    }
+
+  });
+};
+
+// Send tweet immediately when app start
+sendTweet();
+// Send tweet each x minutes
+setInterval(sendTweet, 60000 * tweetFrequency);
