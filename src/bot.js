@@ -11,8 +11,8 @@ var T = new twit(config);
 var qs = ura(strings.queryString);
 var rt = ura(strings.resultType);
 
-var retweetFrequency = .1;
-var favoriteFrequency = .1;
+var retweetFrequency = 5;
+var favoriteFrequency = 5;
 
 console.log('GO BOT GO!');
 
@@ -154,7 +154,7 @@ function randIdx(arr) {
 // ====================================
 //    POST TWEET WITH MEDIA 
 // ====================================
-var b64content = fs.readFileSync('./src/archer.png', { encoding: 'base64' });
+var b64content = fs.readFileSync('./src/img/archer.png', { encoding: 'base64' });
  
 // first we must post the media to Twitter 
 T.post('media/upload', { media_data: b64content }, function (err, data, response) {
