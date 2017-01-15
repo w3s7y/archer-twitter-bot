@@ -12,9 +12,13 @@ var T = new twit(config);
 var qs = ura(strings.queryString);
 var rt = ura(strings.resultType);
 
+
 var retweetFrequency = 5;
 var favoriteFrequency = 5;
 var tweetFrequency = 5;
+var gifFrequency = 4;
+var postGifFrequency = 5;
+
 
 console.log('GO BOT GO!');
 
@@ -156,28 +160,85 @@ function randIdx(arr) {
 // ====================================
 //    POST TWEET WITH MEDIA 
 // ====================================
-// var b64content = fs.readFileSync('./src/img/archer.png', { encoding: 'base64' });
 
-// // first we must post the media to Twitter 
-// T.post('media/upload', { media_data: b64content }, function (err, data, response) {
-//   // now we can assign alt text to the media, for use by screen readers and 
-//   // other text-based presentations and interpreters 
-//   var mediaIdStr = data.media_id_string;
-//   var altText = "Small flowers in a planter on a sunny balcony, blossoming.";
-//   var meta_params = { media_id: mediaIdStr, alt_text: { text: altText } };
+// below this line to get gif fom giphy ====================================
 
-//   T.post('media/metadata/create', meta_params, function (err, data, response) {
-//     if (!err) {
-//       // now we can reference the media and post a tweet (media will attach to the tweet) 
-//       var params = { status: 'loving life #nofilter', media_ids: [mediaIdStr] };
+var randomGif = function() {
+  var Giphy = require('giphy'),
+    giphy = new Giphy('dc6zaTOxFJmzC'); // use Giphy public beta key
 
-//       T.post('statuses/update', params, function (err, data, response) {
-//         console.log(data, 'YAY!');
-//       });
-//     }
-//   });
-// });
+  var giphySearchString = qs();
+  var giphyFile;
 
+  // Search with options using callback
+  giphy.search({
+    q: giphySearchString,
+    rating: 'g'
+  }, function(err, res) {
+    // Res contains gif data!
+    // console.log(JSON.stringify(res));
+    var resData = randIdx(res.data);
+    // console.log(JSON.stringify(resData));
+    // console.log(Object.getOwnPropertyNames(resData.images.original.url));
+    // console.log(Object.keys(resData));
+    console.log(resData.images.original.url);
+
+    giphyFile = resData.images.original.url;
+    // below this line to save the gif locally ====================================
+
+    var request = require('request');
+    request(giphyFile).pipe(fs.createWriteStream('./src/img/archer.gif'));
+  });
+};
+
+// Send tweet immediately when app start
+randomGif();
+// Send tweet each x minutes
+setInterval(randomGif, 60000 * gifFrequency);
+
+// below this line to post the gif ====================================
+
+var postGif = function() {
+  var b64content = fs.readFileSync('./src/img/archer.gif', {
+    encoding: 'base64'
+  });
+
+  // first we must post the media to Twitter 
+  T.post('media/upload', {
+    media_data: b64content
+  }, function(err, data, response) {
+    // now we can assign alt text to the media, for use by screen readers and 
+    // other text-based presentations and interpreters 
+    var mediaIdStr = data.media_id_string;
+    var altText = "Small flowers in a planter on a sunny balcony, blossoming.";
+    var meta_params = {
+      media_id: mediaIdStr,
+      alt_text: {
+        text: altText
+      }
+    };
+
+    T.post('media/metadata/create', meta_params, function(err, data, response) {
+      if (!err) {
+        // now we can reference the media and post a tweet (media will attach to the tweet) 
+        var params = {
+          status: 'Random gif via Giphy!',
+          media_ids: [mediaIdStr]
+        };
+
+        T.post('statuses/update', params, function(err, data, response) {
+          console.log(data, 'YAY!');
+        });
+      }
+    });
+  });
+};
+
+
+// Send tweet immediately when app start
+postGif();
+// Send tweet each x minutes
+setInterval(postGif, 60000 * postGifFrequency);
 
 // ====================================
 //    SEND TWEET 
@@ -205,7 +266,7 @@ function sendTweet() {
     }
 
   });
-};
+}
 
 // Send tweet immediately when app start
 sendTweet();
