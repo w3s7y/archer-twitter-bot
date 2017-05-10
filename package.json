@@ -4,13 +4,17 @@
   "description": "Archer twitter to respond to ",
   "main": "index.js",
   "scripts": {
-    "test": "jest",
     "start": "node index.js"
   },
   "author": "Scott Spence",
   "license": "MIT",
   "dependencies": {
+    "dotenv": "^4.0.0",
+    "giphy": "^0.0.4",
     "twit": "^2.2.5",
     "unique-random-array": "^1.0.0"
+  },
+  "devDependencies": {
+    "nodeman": "^1.1.2"
   }
 }
