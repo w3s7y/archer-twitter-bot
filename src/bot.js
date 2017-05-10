@@ -1,11 +1,12 @@
 const Twit = require('twit')
-const config = require('./config').twitterKeys
+const config = require('./config')
 
-const bot = new Twit(config)
+const bot = new Twit(config.twitterKeys)
 
 const like = require('./api/like')
 
-setInterval(like, 1000*200)
+like()
+setInterval(like, config.twitterConfig.like)
 
 
 

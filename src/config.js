@@ -13,7 +13,7 @@ module.exports = {
     language: process.env.LANG,
     username: process.env.TWITTER_USERNAME,
     retweet: process.env.TWITTER_RETWEET_RATE,
-    favorite: process.env.TWITTER_FAVORITE_RATE
+    like: process.env.TWITTER_LIKE_RATE * 1000
   },
   sentiment_api_key: process.env.SENTIMENT_KEY,
 }

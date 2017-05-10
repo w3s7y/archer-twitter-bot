@@ -1,5 +1,5 @@
 const rando = (arr) => {
-  var index = Math.floor(Math.rando() * arr.length)
+  const index = Math.floor(Math.random() * arr.length)
   return arr[index]
 }
 
