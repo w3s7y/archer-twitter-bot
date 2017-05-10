@@ -7,7 +7,6 @@ var responses = require('./helpers/responses')
 var phrasing = require('./helpers/phrasing')
 
 
-console.log(config.twitter)
 var bot = new Twit(config.twitter);
 var qs = ura(strings.queryString);
 var rt = ura(strings.resultType);
