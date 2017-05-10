@@ -6,5 +6,9 @@ logs
 *.log
 npm-debug.log*
 
-# twitter keys
-config.js
+# env vars
+.env
+
+# images
+*.gif
+*.jpg
