@@ -4,7 +4,6 @@
   "description": "Archer twitter to respond to ",
   "main": "index.js",
   "scripts": {
-    "test": "jest",
     "start": "node index.js"
   },
   "author": "Scott Spence",
