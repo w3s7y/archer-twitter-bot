@@ -1,14 +1,14 @@
-var
-  twit = require('twit'),
-  ura = require('unique-random-array'),
-  fs = require('fs'),
-  config = require('./config'),
-  strings = require('./helpers/strings'),
-  responses = require('./helpers/responses'),
-  phrasing = require('./helpers/phrasing');
+var Twit = require('twit')
+var ura = require('unique-random-array')
+var fs = require('fs')
+var config = require('./config')
+var strings = require('./helpers/strings')
+var responses = require('./helpers/responses')
+var phrasing = require('./helpers/phrasing')
 
 
-var T = new twit(config);
+console.log(config.twitter)
+var bot = new Twit(config.twitter);
 var qs = ura(strings.queryString);
 var rt = ura(strings.resultType);
 
@@ -26,7 +26,7 @@ console.log('GO BOT GO!');
 // ====================================
 //    RETWEET 
 // ====================================
-var retweet = function() {
+var retweet = function () {
   var paramQs = qs();
   var paramRt = rt();
   var params = {
@@ -34,24 +34,22 @@ var retweet = function() {
     result_type: paramRt,
     lang: 'en'
   };
-  T.get('search/tweets', params, function(err, data) {
+  bot.get('search/tweets', params, function (err, data) {
     if (!err) {
       // grab id of tweet
       var retweetId = data.statuses[0].id_str;
       // retweet yo!
-      T.post('statuses/retweet/:id', {
+      bot.post('statuses/retweet/:id', {
         id: retweetId
-      }, function(err, response) {
+      }, function (err, response) {
         // if err
         if (err) {
           console.log('DERP ON RETWEET!');
-        }
-        else {
+        } else {
           console.log('RETWEET SUCCESS!');
         }
       });
-    }
-    else {
+    } else {
       return console.log('CANNOT RETWEET! Derp!', err);
     }
     var randomUser = randIdx(data.statuses).user.screen_name;
@@ -69,7 +67,7 @@ setInterval(retweet, 60000 * retweetFrequency);
 // ====================================
 //    FAVORITE
 // ====================================
-var favorite = function() {
+var favorite = function () {
   var paramQs = qs();
   var paramRt = rt();
   var params = {
@@ -77,7 +75,7 @@ var favorite = function() {
     result_type: paramRt,
     lang: 'en'
   };
-  T.get('search/tweets', params, function(err, data) {
+  bot.get('search/tweets', params, function (err, data) {
     if (!err) {
 
       // find tweets randomly
@@ -87,19 +85,17 @@ var favorite = function() {
       // if tweet is found
       if (typeof randomTweet != 'undefined') {
         // Tell Twitter to 'favorite' it
-        T.post('favorites/create', {
+        bot.post('favorites/create', {
           id: randomTweet.id_str
-        }, function(err, response) {
+        }, function (err, response) {
           // if error while 'favorite'
           if (err) {
             console.log('CANNOT BE FAVORITE! ERROR! Err: ' + err);
-          }
-          else {
+          } else {
             console.log('FAVORITED! SUCCESS!');
           }
         });
-      }
-      else {
+      } else {
         return console.log('CANNOT RETWEET! Derp!' + err);
       }
       var randomUser = randIdx(data.statuses).user.screen_name;
@@ -118,7 +114,7 @@ setInterval(favorite, 60000 * favoriteFrequency);
 // ====================================
 //    STREAM API
 // ====================================
-var userStream = T.stream('user');
+var userStream = bot.stream('user');
 
 userStream.on('follow', followed);
 
@@ -138,11 +134,10 @@ function tweetNow(tweetTxt) {
   var tweet = {
     status: tweetTxt
   };
-  T.post('statuses/update', tweet, function(err, data, response) {
+  bot.post('statuses/update', tweet, function (err, data, response) {
     if (err) {
       console.log('REPLY DERP! ERROR!', err);
-    }
-    else {
+    } else {
       console.log('REPLY SUCCESS!', tweetTxt);
     }
   });
@@ -163,7 +158,7 @@ function randIdx(arr) {
 
 // below this line to get gif fom giphy ====================================
 
-var randomGif = function() {
+var randomGif = function () {
   var Giphy = require('giphy'),
     giphy = new Giphy('dc6zaTOxFJmzC'); // use Giphy public beta key
 
@@ -174,7 +169,7 @@ var randomGif = function() {
   giphy.search({
     q: giphySearchString,
     rating: 'g'
-  }, function(err, res) {
+  }, function (err, res) {
     // Res contains gif data!
     // console.log(JSON.stringify(res));
     var resData = randIdx(res.data);
@@ -198,15 +193,15 @@ setInterval(randomGif, 60000 * gifFrequency);
 
 // below this line to post the gif ====================================
 
-var postGif = function() {
+var postGif = function () {
   var b64content = fs.readFileSync('./src/img/archer.gif', {
     encoding: 'base64'
   });
 
   // first we must post the media to Twitter 
-  T.post('media/upload', {
+  bot.post('media/upload', {
     media_data: b64content
-  }, function(err, data, response) {
+  }, function (err, data, response) {
     // now we can assign alt text to the media, for use by screen readers and 
     // other text-based presentations and interpreters 
     var mediaIdStr = data.media_id_string;
@@ -218,7 +213,7 @@ var postGif = function() {
       }
     };
 
-    T.post('media/metadata/create', meta_params, function(err, data, response) {
+    bot.post('media/metadata/create', meta_params, function (err, data, response) {
       if (!err) {
         // now we can reference the media and post a tweet (media will attach to the tweet) 
         var params = {
@@ -226,7 +221,7 @@ var postGif = function() {
           media_ids: [mediaIdStr]
         };
 
-        T.post('statuses/update', params, function(err, data, response) {
+        bot.post('statuses/update', params, function (err, data, response) {
           console.log(data, 'YAY!');
         });
       }
@@ -258,7 +253,7 @@ function sendTweet() {
     lang: 'en'
   };
 
-  T.get('search/tweets', params, function(err, data) {
+  bot.get('search/tweets', params, function (err, data) {
     if (!err) {
       var phrasingReply = pr();
       var randomUser = randIdx(data.statuses).user.screen_name;
