@@ -4,9 +4,17 @@ const config = require('./config')
 const bot = new Twit(config.twitterKeys)
 
 const like = require('./api/like')
+const retweet = require('./api/retweet')
+const quote = require('./api/quote')
 
 like()
 setInterval(like, config.twitterConfig.like)
+
+retweet()
+setInterval(retweet, config.twitterConfig.retweet)
+
+quote()
+setInterval(quote, config.twitterConfig.quote)
 
 
 
@@ -35,7 +43,7 @@ setInterval(like, config.twitterConfig.like)
 
 
 // // ====================================
-// //    RETWEET 
+// //    RETWEET
 // // ====================================
 // var retweet = function () {
 //   var paramQs = qs();
@@ -73,7 +81,7 @@ setInterval(like, config.twitterConfig.like)
 // // retweet in every x minutes
 // setInterval(retweet, 60000 * retweetFrequency);
 
-// // REPLY 'Phrasing?' to certain query strings 
+// // REPLY 'Phrasing?' to certain query strings
 
 // // ====================================
 // //    FAVORITE
@@ -164,7 +172,7 @@ setInterval(like, config.twitterConfig.like)
 
 
 // // ====================================
-// //    POST TWEET WITH MEDIA 
+// //    POST TWEET WITH MEDIA
 // // ====================================
 
 // // below this line to get gif fom giphy ====================================
@@ -209,12 +217,12 @@ setInterval(like, config.twitterConfig.like)
 //     encoding: 'base64'
 //   });
 
-//   // first we must post the media to Twitter 
+//   // first we must post the media to Twitter
 //   bot.post('media/upload', {
 //     media_data: b64content
 //   }, function (err, data, response) {
-//     // now we can assign alt text to the media, for use by screen readers and 
-//     // other text-based presentations and interpreters 
+//     // now we can assign alt text to the media, for use by screen readers and
+//     // other text-based presentations and interpreters
 //     var mediaIdStr = data.media_id_string;
 //     var altText = "Small flowers in a planter on a sunny balcony, blossoming.";
 //     var meta_params = {
@@ -226,7 +234,7 @@ setInterval(like, config.twitterConfig.like)
 
 //     bot.post('media/metadata/create', meta_params, function (err, data, response) {
 //       if (!err) {
-//         // now we can reference the media and post a tweet (media will attach to the tweet) 
+//         // now we can reference the media and post a tweet (media will attach to the tweet)
 //         var params = {
 //           status: 'Random gif via Giphy!',
 //           media_ids: [mediaIdStr]
@@ -247,7 +255,7 @@ setInterval(like, config.twitterConfig.like)
 // setInterval(postGif, 60000 * postGifFrequency);
 
 // // ====================================
-// //    SEND TWEET 
+// //    SEND TWEET
 // // ====================================
 
 // var ps = ura(phrasing.phrasingQueryString);

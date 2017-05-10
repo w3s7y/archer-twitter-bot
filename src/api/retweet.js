@@ -1,25 +1,32 @@
-const config = require('../config')
-const paramters = require('./parameters')
 const Twit = require('twit')
+const unique = require('unique-random-array')
+const config = require('../config')
 
-const bot = new Twit(config.twitter)
+const param = config.twitterConfig
+const queryString = unique(param.queryString.split(','))
+
+const bot = new Twit(config.twitterKeys)
 
 const retweet = () => {
-  let params = paramters
-
-  bot.get('search/tweets', params, (err, data) => {
+  let query = queryString()
+  bot.get('search/tweets', {
+    q: query,
+    result_type: param.resultType,
+    lang: param.language,
+    filter: 'safe'
+  }, (err, data) => {
     // grab tweet ID to retweet
     let retweetId = data.statuses[0].id_str
 
-    if (err) console.log('ERROR: Cannot Search Tweet!')
+    if (err) console.log('ERRORDERP: Cannot Search Tweet!')
 
     bot.post('statuses/retweet/:id', {
       id: retweetId
     }, (err, response) => {
       if (err) {
-        console.log('ERROR: Retweet!')
+        console.log('ERRORDERP: Retweet!')
       }
-      console.log('SUCCESS: Retweet')
+      console.log(data.statuses[0].text, 'SUCCESS: RT')
     })
   })
 }

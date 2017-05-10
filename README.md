@@ -20,7 +20,8 @@ I'm a big fan of Archer so decided to make a bot to retweet and like about all t
 
 Todos:
 
-- [x] LikeBot
+- [x] Like Bot
+- [x] Retweet Bot
 - [ ] Responses to Phrasing
 - [ ] Gif posting
 
