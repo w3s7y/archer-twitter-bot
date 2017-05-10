@@ -12,8 +12,8 @@ module.exports = {
     resultType: process.env.RESULT_TYPE,
     language: process.env.LANG,
     username: process.env.TWITTER_USERNAME,
-    retweet: process.env.TWITTER_RETWEET_RATE,
-    like: process.env.TWITTER_LIKE_RATE * 1000
+    retweet: process.env.TWITTER_RETWEET_RATE * 1000 * 60,
+    like: process.env.TWITTER_LIKE_RATE * 1000 * 60
   },
   sentiment_api_key: process.env.SENTIMENT_KEY,
 }
