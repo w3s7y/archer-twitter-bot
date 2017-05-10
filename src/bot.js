@@ -1,13 +1,13 @@
 var Twit = require('twit')
 var ura = require('unique-random-array')
 var fs = require('fs')
-var config = require('./config')
+var config = require('./config').twitterKeys
 var strings = require('./helpers/strings')
 var responses = require('./helpers/responses')
 var phrasing = require('./helpers/phrasing')
 
 
-var bot = new Twit(config.twitter);
+var bot = new Twit(config);
 var qs = ura(strings.queryString);
 var rt = ura(strings.resultType);
 
