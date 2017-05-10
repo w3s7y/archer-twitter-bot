@@ -2,8 +2,10 @@ const config = require('../config')
 const rando = require('../helpers/rando')
 const Twit = require('twit')
 const unique = require('unique-random-array')
-const param = require('../config').twitterConfig
+
+const param = config.twitterConfig
 const queryString = unique(param.queryString.split(','))
+
 const bot = new Twit(config.twitterKeys)
 
 const like = () => {
