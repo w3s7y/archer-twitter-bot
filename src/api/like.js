@@ -27,7 +27,7 @@ const like = () => {
           if (err) {
             console.log('ERRORDERP: Post like: ', err)
           } else {
-            console.log(data.text + ' tweet liked!')
+            console.log(randoTweet.text + ' tweet liked!')
           }
         })
       }
