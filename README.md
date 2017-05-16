@@ -1,5 +1,7 @@
 # Archer Twitter bot [@hi_archer_bot](https://twitter.com/hi_archer_bot)
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/spences10/archer-twitter-bot.svg)](https://greenkeeper.io/)
+
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/4ac9a8c2c30a4b09af042d95d1bac8ac)](https://www.codacy.com/app/spences10/archer-twitter-bot?utm_source=github.com&utm_medium=referral&utm_content=spences10/archer-twitter-bot&utm_campaign=badger)
 
 [![Version][licence-badge]][licence-link]
