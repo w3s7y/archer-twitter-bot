@@ -4,7 +4,9 @@
   "description": "Archer twitter to respond to ",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js"
+    "start": "node index.js",
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
   },
   "author": "Scott Spence",
   "license": "MIT",
@@ -12,9 +14,11 @@
     "dotenv": "^4.0.0",
     "giphy": "^0.0.4",
     "twit": "^2.2.5",
-    "unique-random-array": "^1.0.0"
+    "unique-random-array": "^1.0.0",
+    "snyk": "^1.30.1"
   },
   "devDependencies": {
     "nodeman": "^1.1.2"
-  }
+  },
+  "snyk": true
 }
