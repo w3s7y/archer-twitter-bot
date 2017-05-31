@@ -24,8 +24,8 @@ I'm a big fan of Archer so decided to make a bot to retweet and like about all t
 
 Todos:
 
-- [x] Like Bot
 - [x] Retweet Bot
+- [ ] Quotes (thanks [tv-quotes.com](http://www.tv-quotes.com/shows/archer))
 - [ ] Responses to Phrasing
 - [ ] Gif posting
 
