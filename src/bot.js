@@ -7,9 +7,6 @@ const like = require('./api/like')
 const retweet = require('./api/retweet')
 const quote = require('./api/quote')
 
-like()
-setInterval(like, config.twitterConfig.like)
-
 retweet()
 setInterval(retweet, config.twitterConfig.retweet)
 

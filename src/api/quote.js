@@ -11,7 +11,7 @@ let tweetQuote = unique(quotes.quote)
 
 const mrkvText = tweetQuote()
 
-const markov = new rita.RiMarkov(6)
+const markov = new rita.RiMarkov(20)
 markov.loadText(mrkvText)
 
 const bot = new Twit(config.twitterKeys)

@@ -15,4 +15,4 @@ module.exports = {
         'ScottDevTweets'
     ],
     resultType: ['mixed', 'recent', 'popular']
-};
+}
