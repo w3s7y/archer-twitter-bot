@@ -1,3 +1,3 @@
 module.exports = function(screenName) {
-    `Awesome @${screenName}, thanks for following!`;
+  `Awesome @${screenName}, thanks for following!`;
 };
