@@ -25,7 +25,7 @@ I'm a big fan of Archer so decided to make a bot to retweet and like about all t
 Todos:
 
 - [x] Retweet Bot
-- [ ] Quotes (thanks [tv-quotes.com](http://www.tv-quotes.com/shows/archer))
+- [x] Quotes (thanks [tv-quotes.com](http://www.tv-quotes.com/shows/archer))
 - [ ] Responses to Phrasing
 - [ ] Gif posting
 
@@ -51,3 +51,4 @@ TWITTER_LIKE_RATE=10
 
 [licence-badge]: https://img.shields.io/badge/license-MIT-orange.svg?style=flat-square
 [licence-link]: http://opensource.org/licenses/MIT
+

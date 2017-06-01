@@ -11,13 +11,15 @@ let tweetQuote = unique(quotes.quote)
 
 const mrkvText = tweetQuote()
 
-const markov = new rita.RiMarkov(20)
+const markov = new rita.RiMarkov(40)
 markov.loadText(mrkvText)
 
 const bot = new Twit(config.twitterKeys)
 
 const quote = () => {
   let quote = markov.generateSentences(2)
+    .toString()
+    .substring(0, 140)
   bot.post('statuses/update', {
     status: quote
   }, function (err, data, response) {

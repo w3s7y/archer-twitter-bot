@@ -16,5 +16,5 @@ module.exports = {
     like: process.env.TWITTER_LIKE_RATE * 1000 * 60,
     quote: process.env.TWITTER_QUOTE_RATE * 1000 * 60
   },
-  sentiment_api_key: process.env.SENTIMENT_KEY,
+  sentiment_api_key: process.env.SENTIMENT_KEY
 }

@@ -3,7 +3,6 @@ const config = require('./config')
 
 const bot = new Twit(config.twitterKeys)
 
-const like = require('./api/like')
 const retweet = require('./api/retweet')
 const quote = require('./api/quote')
 
