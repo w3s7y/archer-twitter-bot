@@ -13,8 +13,8 @@
   "dependencies": {
     "dotenv": "^4.0.0",
     "giphy": "^0.0.4",
-    "rita": "1.1.63",
-    "snyk": "^1.32.0",
+    "snyk": "^1.33.0",
+    "rita": "1.2.12",
     "twit": "^2.2.5",
     "unique-random-array": "^1.0.0"
   },
